@@ -115,20 +115,20 @@ class AddOption extends Component {
     const option = e.target.elements.option.value.trim();
       e.target.elements.option.value = "";
       const error = this.props.handleAddOption(option)
-      if(error) {
+      // if(error) {
         this.setState(() => {
           return { error };
         });
-      }
+      //}
   }
   render() {
     return (
       <div>
         <form onSubmit={this.handleAddOption}>
-          {this.state.error && <p>{this.state.error}</p>}
           <input type="text" name="option"/>
           <button>Add</button>
-        </form>
+        </form>        
+        {this.state.error && <p>{this.state.error}</p>}
       </div>
     );
   }
