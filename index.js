@@ -7,10 +7,11 @@ class IndecisionApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: ["one", "two", "three"]
+      options: []
     }
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
+    this.handleAddOption = this.handleAddOption.bind(this);
   }
   handleDeleteOptions() {
     this.setState(() =>{
@@ -23,6 +24,18 @@ class IndecisionApp extends Component {
     const randomNumber = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNumber];
     alert(option);
+  }
+  handleAddOption(option) {
+    if(!option) {
+      return "Enter valid value for item";
+    } else if(this.state.options.indexOf(option) > -1) {
+      return "This option already exists";
+    }
+    this.setState((prevState) => {
+      return {
+        options: this.state.options.concat(option)
+      }
+    });
   }
   render() {
     const title = "Indecision";
@@ -37,7 +50,9 @@ class IndecisionApp extends Component {
           options={this.state.options}
           handleDeleteOption={this.handleDeleteOptions}
         />
-        <AddOption/>
+        <AddOption
+          handleAddOption={this.handleAddOption}
+        />
       </div>
     );
   }
@@ -88,15 +103,29 @@ class Option extends Component {
 }
 
 class AddOption extends Component {
+  constructor(props) {
+    super(props);
+    this.handleAddOption = this.handleAddOption.bind(this);
+    this.state = {
+      error: undefined
+    }
+  }
   handleAddOption(e) {
     e.preventDefault();
     const option = e.target.elements.option.value.trim();
-    e.target.elements.option.value = "";
+      e.target.elements.option.value = "";
+      const error = this.props.handleAddOption(option)
+      if(error) {
+        this.setState(() => {
+          return { error };
+        });
+      }
   }
   render() {
     return (
       <div>
         <form onSubmit={this.handleAddOption}>
+          {this.state.error && <p>{this.state.error}</p>}
           <input type="text" name="option"/>
           <button>Add</button>
         </form>
