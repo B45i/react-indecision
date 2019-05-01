@@ -3,17 +3,40 @@ import { render } from 'react-dom';
 import './style.css';
 
 
-
 class IndecisionApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      options: ["one", "two", "three"]
+    }
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+  }
+  handleDeleteOptions() {
+    this.setState(() =>{
+      return {
+        options: []
+      }
+    });
+  }
+  handlePick() {
+    const randomNumber = Math.floor(Math.random() * this.state.options.length);
+    const option = this.state.options[randomNumber];
+    alert(option);
+  }
   render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
-    const options = ["one", "two", "three"];
     return (
       <div>        
         <Header title={title} subtitle = {subtitle}/>
-        <Action/>
-        <Options options={options}/>
+        <Action
+          handlePick={this.handlePick}
+        />
+        <Options
+          options={this.state.options}
+          handleDeleteOption={this.handleDeleteOptions}
+        />
         <AddOption/>
       </div>
     );
@@ -31,28 +54,21 @@ class Header extends Component {
   }
 }
 
-class Action extends Component {
+class Action extends Component {  
   render() {
     return (
       <div>
-        <button>What shold i do ?</button>
+        <button onClick={this.props.handlePick}>What shold i do ?</button>
       </div>
     );
   }
 }
 
 class Options extends Component {
-  constructor(props) {
-    super(props);
-    this.handleRemoveAll = this.handleRemoveAll.bind(this);
-  }
-  handleRemoveAll() {
-    alert('remove a;;');
-  }
   render() {
     return (
       <div>
-      <button onClick={this.handleRemoveAll}> Remove All</button>
+      <button onClick={this.props.handleDeleteOption}> Remove All</button>
       {
         this.props.options.map(x => <Option key={x} optionText={x}/>)
       }
