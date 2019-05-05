@@ -7,7 +7,7 @@ class IndecisionApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: []
+      options: this.props.options
     }
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
@@ -59,6 +59,10 @@ class IndecisionApp extends Component {
   }
 }
 
+IndecisionApp.defaultProps = {
+  options: []
+};
+
 const Header = (props) => {
   return (
     <div>
@@ -67,6 +71,11 @@ const Header = (props) => {
     </div>
     );
 }
+
+Header.defaultProps = {
+  title: "Indecision App",
+  subtitle: "Options chooser"
+};
 
 const Action = props => { 
   return (
