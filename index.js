@@ -14,6 +14,25 @@ class IndecisionApp extends Component {
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
   }
+  componentDidMount() {
+    try {
+      const json = localStorage.getItem('options');
+      const options = JSON.parse(json);
+      if (options) {
+        this.setState(() => ({ options }));
+      }
+    } catch (e) { }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem('options', json);
+    }
+  }
+  componentwillUnmount() {
+    console.log("component will unMount");
+  }
+
   handleDeleteOptions() {
     this.setState(() => ({ options: [] }));
   }
@@ -28,19 +47,19 @@ class IndecisionApp extends Component {
     alert(option);
   }
   handleAddOption(option) {
-    if(!option) {
+    if (!option) {
       return "Enter valid value for item";
-    } else if(this.state.options.indexOf(option) > -1) {
+    } else if (this.state.options.indexOf(option) > -1) {
       return "This option already exists";
     }
-    this.setState(prevState => ({options: this.state.options.concat(option)}));
+    this.setState(prevState => ({ options: this.state.options.concat(option) }));
   }
   render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
     return (
-      <div>        
-        <Header title={title} subtitle = {subtitle}/>
+      <div>
+        <Header title={title} subtitle={subtitle} />
         <Action
           handlePick={this.handlePick}
           hasOptions={this.state.options.length > 0}
@@ -68,7 +87,7 @@ const Header = (props) => {
       <h1>{props.title}</h1>
       <h2>{props.subtitle}</h2>
     </div>
-    );
+  );
 }
 
 Header.defaultProps = {
@@ -76,13 +95,13 @@ Header.defaultProps = {
   subtitle: "Options chooser"
 };
 
-const Action = props => { 
+const Action = props => {
   return (
     <div>
       <button
         onClick={props.handlePick}
         disabled={!props.hasOptions}
-        >
+      >
         What shold i do ?
       </button>
     </div>
@@ -92,16 +111,17 @@ const Action = props => {
 const Options = props => {
   return (
     <div>
-    <button onClick={props.handleDeleteOptions}> Remove All</button>
-    {
-      props.options.map(x => (
-        <Option 
-          key={x}
-          optionText={x}
-          handleDeleteOption={props.handleDeleteOption}
-        />
+      <button onClick={props.handleDeleteOptions}> Remove All</button>
+      {props.options.length === 0 && <p>Please add options to get started</p>}
+      {
+        props.options.map(x => (
+          <Option
+            key={x}
+            optionText={x}
+            handleDeleteOption={props.handleDeleteOption}
+          />
         ))
-    }
+      }
     </div>
   );
 }
@@ -110,7 +130,7 @@ const Option = props => {
   return (
     <div>
       <p>{props.optionText}
-        <button 
+        <button
           onClick={e => {
             props.handleDeleteOption(props.optionText);
           }}>
@@ -132,23 +152,24 @@ class AddOption extends Component {
   handleAddOption(e) {
     e.preventDefault();
     const option = e.target.elements.option.value.trim();
+    const error = this.props.handleAddOption(option)
+    
+    this.setState(() => ({ error }));    
+    if(!error) {
       e.target.elements.option.value = "";
-      const error = this.props.handleAddOption(option)
-      // if(error) {
-        this.setState(() => ({ error }));
-      //}
+    }
   }
   render() {
     return (
       <div>
         <form onSubmit={this.handleAddOption}>
-          <input type="text" name="option"/>
+          <input type="text" name="option" />
           <button>Add</button>
-        </form>        
+        </form>
         {this.state.error && <p>{this.state.error}</p>}
       </div>
     );
   }
 }
 
-render(<IndecisionApp/>, document.getElementById('root'));
+render(<IndecisionApp />, document.getElementById('root'));
