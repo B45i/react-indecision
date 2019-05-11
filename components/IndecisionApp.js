@@ -8,12 +8,12 @@ import Options from './Options';
 import OptionModal from './OptionModal'
 
 export default class IndecisionApp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       options: this.props.options,
       selectedOption: undefined
-    }
+  }
+  constructor(props) {
+    super(props);
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.handlePick = this.handlePick.bind(this);
