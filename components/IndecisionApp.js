@@ -5,17 +5,20 @@ import AddOption from './AddOption';
 import Header from './Header';
 import Action from './Action';
 import Options from './Options';
+import OptionModal from './OptionModal'
 
 export default class IndecisionApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: this.props.options
+      options: this.props.options,
+      selectedOption: undefined
     }
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleClearSelection = this.handleClearSelection.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +55,7 @@ export default class IndecisionApp extends Component {
   handlePick() {
     const randomNumber = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNumber];
-    alert(option);
+    this.setState(() => ({ selectedOption: option}));
   }
 
   handleAddOption(option) {
@@ -63,7 +66,11 @@ export default class IndecisionApp extends Component {
     }
     this.setState(prevState => ({ options: this.state.options.concat(option) }));
   }
-  
+
+  handleClearSelection() {
+    this.setState(() => ({ selectedOption: undefined}));
+  }
+
   render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
@@ -81,6 +88,10 @@ export default class IndecisionApp extends Component {
         />
         <AddOption
           handleAddOption={this.handleAddOption}
+        />
+        <OptionModal 
+          selectedOption={this.state.selectedOption}
+          handleClearSelection={this.handleClearSelection}
         />
       </div>
     );

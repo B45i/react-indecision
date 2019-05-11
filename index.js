@@ -3,4 +3,4 @@ import { render } from 'react-dom';
 
 import IndecisionApp from './components/IndecisionApp'
 
-render(<IndecisionApp />, document.getElementById('root'));
+render(<IndecisionApp/>, document.getElementById('root'));
