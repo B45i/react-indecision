@@ -17,6 +17,7 @@ export default class IndecisionApp extends Component {
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
   }
+
   componentDidMount() {
     try {
       const json = localStorage.getItem('options');
@@ -26,12 +27,14 @@ export default class IndecisionApp extends Component {
       }
     } catch (e) { }
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.options.length !== this.state.options.length) {
       const json = JSON.stringify(this.state.options);
       localStorage.setItem('options', json);
     }
   }
+
   componentwillUnmount() {
     console.log("component will unMount");
   }
@@ -39,16 +42,19 @@ export default class IndecisionApp extends Component {
   handleDeleteOptions() {
     this.setState(() => ({ options: [] }));
   }
+
   handleDeleteOption(optionToRemove) {
     this.setState((prevState) => ({
       options: prevState.options.filter(x => x !== optionToRemove)
     }));
   }
+
   handlePick() {
     const randomNumber = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNumber];
     alert(option);
   }
+
   handleAddOption(option) {
     if (!option) {
       return "Enter valid value for item";
@@ -57,6 +63,7 @@ export default class IndecisionApp extends Component {
     }
     this.setState(prevState => ({ options: this.state.options.concat(option) }));
   }
+  
   render() {
     const title = "Indecision";
     const subtitle = "Put your life in the hands of a computer";
