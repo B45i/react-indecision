@@ -9,11 +9,37 @@ import OptionModal from './OptionModal'
 
 export default class IndecisionApp extends Component {
   state = {
-      options: this.props.options,
-      selectedOption: undefined
+    options: this.props.options,
+    selectedOption: undefined
   }
-  constructor(props) {
-    super(props);
+  
+  handleDeleteOptions = () => {
+    this.setState(() => ({ options: [] }));
+  }
+
+  handleDeleteOption = optionToRemove => {
+    this.setState((prevState) => ({
+      options: prevState.options.filter(x => x !== optionToRemove)
+    }));
+  }
+
+  handlePick = () => {
+    const randomNumber = Math.floor(Math.random() * this.state.options.length);
+    const option = this.state.options[randomNumber];
+    this.setState(() => ({ selectedOption: option }));
+  }
+
+  handleAddOption = option => {
+    if (!option) {
+      return "Enter valid value for item";
+    } else if (this.state.options.indexOf(option) > -1) {
+      return "This option already exists";
+    }
+    this.setState(prevState => ({ options: this.state.options.concat(option) }));
+  }
+
+  handleClearSelection = () => {
+    this.setState(() => ({ selectedOption: undefined }));
   }
 
   componentDidMount() {
@@ -33,38 +59,11 @@ export default class IndecisionApp extends Component {
     }
   }
 
-  componentwillUnmount = () => {
+  componentwillUnmount() {
     console.log("component will unMount");
   }
 
-  handleDeleteOptions = () => {
-    this.setState(() => ({ options: [] }));
-  }
 
-  handleDeleteOption = optionToRemove => {
-    this.setState((prevState) => ({
-      options: prevState.options.filter(x => x !== optionToRemove)
-    }));
-  }
-
-  handlePick = () => {
-    const randomNumber = Math.floor(Math.random() * this.state.options.length);
-    const option = this.state.options[randomNumber];
-    this.setState(() => ({ selectedOption: option}));
-  }
-
-  handleAddOption = option => {
-    if (!option) {
-      return "Enter valid value for item";
-    } else if (this.state.options.indexOf(option) > -1) {
-      return "This option already exists";
-    }
-    this.setState(prevState => ({ options: this.state.options.concat(option) }));
-  }
-
-  handleClearSelection = () => {
-    this.setState(() => ({ selectedOption: undefined}));
-  }
 
   render() {
     const title = "Indecision";
@@ -84,7 +83,7 @@ export default class IndecisionApp extends Component {
         <AddOption
           handleAddOption={this.handleAddOption}
         />
-        <OptionModal 
+        <OptionModal
           selectedOption={this.state.selectedOption}
           handleClearSelection={this.handleClearSelection}
         />
