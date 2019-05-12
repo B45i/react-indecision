@@ -4,7 +4,8 @@ import Modal from 'react-modal';
 const OptionModal = (props) => (
   <Modal
     isOpen={!!props.selectedOption}
-    contentLabel="Selected option"
+    contentLabel="Selected option"    
+    ariaHideApp={false}
     onRequestClose={props.handleClearSelection}
   >
     <h3>Selected Option</h3>

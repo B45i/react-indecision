@@ -14,11 +14,6 @@ export default class IndecisionApp extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    this.handlePick = this.handlePick.bind(this);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.handleClearSelection = this.handleClearSelection.bind(this);
   }
 
   componentDidMount() {
@@ -38,27 +33,27 @@ export default class IndecisionApp extends Component {
     }
   }
 
-  componentwillUnmount() {
+  componentwillUnmount = () => {
     console.log("component will unMount");
   }
 
-  handleDeleteOptions() {
+  handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
   }
 
-  handleDeleteOption(optionToRemove) {
+  handleDeleteOption = optionToRemove => {
     this.setState((prevState) => ({
       options: prevState.options.filter(x => x !== optionToRemove)
     }));
   }
 
-  handlePick() {
+  handlePick = () => {
     const randomNumber = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNumber];
     this.setState(() => ({ selectedOption: option}));
   }
 
-  handleAddOption(option) {
+  handleAddOption = option => {
     if (!option) {
       return "Enter valid value for item";
     } else if (this.state.options.indexOf(option) > -1) {
@@ -67,7 +62,7 @@ export default class IndecisionApp extends Component {
     this.setState(prevState => ({ options: this.state.options.concat(option) }));
   }
 
-  handleClearSelection() {
+  handleClearSelection = () => {
     this.setState(() => ({ selectedOption: undefined}));
   }
 
