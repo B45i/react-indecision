@@ -5,7 +5,9 @@
   "dependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
-    "react-modal": "^3.8.1"
+    "react-modal": "^3.8.1",
+    "scss": "^0.2.4",
+    "scss-loader": "^0.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
