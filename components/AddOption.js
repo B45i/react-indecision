@@ -23,7 +23,7 @@ export default class AddOption extends Component {
       <div>
         <form onSubmit={this.handleAddOption}>
           <input type="text" name="option" />
-          <button>Add</button>
+          <button className="button">Add</button>
         </form>
         {this.state.error && <p>{this.state.error}</p>}
       </div>

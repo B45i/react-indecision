@@ -71,7 +71,7 @@ export default class IndecisionApp extends Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <div class="container">
+        <div className="container">
           <Action
             handlePick={this.handlePick}
             hasOptions={this.state.options.length > 0}
