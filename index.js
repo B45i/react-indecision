@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import 'normalize.css/normalize.css';
+import React, { Component } from "react";
+import { render } from "react-dom";
+import "normalize.css/normalize.css";
 
-import IndecisionApp from './components/IndecisionApp'
-import './styles/styles.scss'
+import IndecisionApp from "./components/IndecisionApp";
+import "./styles/styles.scss";
 
-render(<IndecisionApp/>, document.getElementById('root'));
+render(<IndecisionApp />, document.getElementById("root"));
